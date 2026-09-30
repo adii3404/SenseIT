@@ -23,7 +23,7 @@ import { SEVERITY_STYLE, KIND_META } from "@/lib/types";
 import { pinDataUrl } from "./map-pin";
 import { MapToolbar } from "./map-toolbar";
 import { useSenseIT } from "@/components/senseit-provider";
-import { FallbackMap } from "./fallback-map";
+import { LeafletMap } from "./leaflet-map";
 
 /** Dark Tactical Radar style for emergency operations */
 const DARK_RADAR_STYLES: google.maps.MapTypeStyle[] = [
@@ -185,7 +185,7 @@ export function GoogleMapClient({
   if (authError || loadError) {
     return (
       <div className="relative h-full w-full">
-        <FallbackMap assets={assets} />
+        <LeafletMap assets={assets} />
         {showNotice && (
           <div className="absolute top-16 right-4 z-40 max-w-sm rounded-2xl border border-blue-200 bg-white/95 p-3.5 shadow-xl backdrop-blur animate-fade-up">
             <div className="flex items-start justify-between gap-2">

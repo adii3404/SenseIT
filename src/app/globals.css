@@ -82,3 +82,22 @@ div:has(> a[href*="maps-no-account"]),
   visibility: hidden !important;
   pointer-events: none !important;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Leaflet tactical GIS styling                                      */
+/* ------------------------------------------------------------------ */
+.leaflet-popup-content-wrapper {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(229, 231, 235, 0.9) !important;
+  padding: 4px !important;
+}
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+.leaflet-container {
+  font-family: inherit !important;
+  background-color: #0f172a !important;
+}
+

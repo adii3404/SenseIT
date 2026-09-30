@@ -2,12 +2,16 @@
 
 import type { MapAsset } from "@/lib/types";
 import { GoogleMapClient } from "./google-map-client";
-import { FallbackMap } from "./fallback-map";
+import { LeafletMap } from "./leaflet-map";
 import { useSenseIT } from "@/components/senseit-provider";
 
 /**
- * Renders the Google Maps API by default when an API key is available.
- * Falls back to the illustrated canvas map only if no key is set.
+ * CoastalMap is the central real-time interactive mapping engine.
+ *
+ * It provides:
+ * 1. Full interactive GIS Mapping (Real Satellite Imagery via Esri, Dark Tactical Radar, and OpenStreetMap).
+ * 2. If a Google Maps API Key is active, it runs Google Maps with automatic error resilience.
+ * 3. Never falls back to a dead static SVG — always provides a fully workable, zoomable, draggable real map.
  */
 export function CoastalMap({
   apiKey,
@@ -19,9 +23,12 @@ export function CoastalMap({
   const { customGoogleMapsKey } = useSenseIT();
   const effectiveKey = customGoogleMapsKey || apiKey;
 
-  // Always try Google Maps when key exists — let the component handle billing errors internally
+  // If key exists, run Google Maps with automatic error resilience (falls back to Leaflet if billing fails)
   if (effectiveKey) {
     return <GoogleMapClient apiKey={effectiveKey} assets={assets} />;
   }
-  return <FallbackMap assets={assets} />;
+
+  // Without an API key (e.g., on Netlify or public repo), render the full interactive Leaflet GIS map with Satellite & Street tiles
+  return <LeafletMap assets={assets} />;
 }
+
