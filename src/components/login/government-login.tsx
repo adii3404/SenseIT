@@ -88,12 +88,6 @@ export function GovernmentLogin() {
               </p>
             </div>
           </div>
-
-          {/* Secure Access Badge */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/80 border border-blue-800/50 text-emerald-400 text-xs font-mono">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-semibold text-[11px]">AUTHORIZED ACCESS PORTAL</span>
-          </div>
         </div>
       </header>
 
@@ -104,30 +98,25 @@ export function GovernmentLogin() {
         <div className="w-full max-w-md">
           {/* Clean Authorized Login Card */}
           <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-            {/* Card Header with Logo */}
+            {/* Card Header with Logo and Titles in Centre */}
             <div className="bg-gradient-to-b from-[#0f244a] to-[#0a1935] p-6 text-white text-center border-b border-blue-900">
               <div className="mx-auto mb-3 flex items-center justify-center">
                 <img
                   src="/logo.png"
                   alt="SenseIT"
-                  className="h-14 w-auto object-contain rounded-xl bg-white p-1.5 shadow-md"
+                  className="h-16 w-auto object-contain rounded-xl bg-white p-1.5 shadow-md"
                 />
               </div>
 
-              <h2 className="text-xl font-black tracking-tight text-white">
+              <h2 className="text-2xl font-black tracking-tight text-white">
                 SenseIT
               </h2>
-              <p className="mt-0.5 text-xs font-bold tracking-wider text-blue-300 uppercase">
+              <p className="mt-1 text-xs font-bold tracking-wider text-blue-300 uppercase">
                 DISASTER SURVEILLANCE MANAGEMENT
               </p>
-              <p className="mt-1 text-[11px] text-slate-300">
+              <p className="mt-1.5 text-[11.5px] text-slate-300 leading-snug">
                 Integrated Emergency Operations Network · Cyclone Surveillance Wing
               </p>
-
-              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-blue-950/90 px-3 py-1 text-[10px] font-bold text-blue-200 border border-blue-800/60 uppercase tracking-wider">
-                <Lock className="h-3 w-3 text-blue-400" />
-                <span>Authorized Personnel Login</span>
-              </div>
             </div>
 
             {/* Form Body */}
@@ -230,7 +219,7 @@ export function GovernmentLogin() {
                       <span>Verifying Credentials…</span>
                     </>
                   ) : (
-                    <span>Enter Command Center</span>
+                    <span>Enter Portal</span>
                   )}
                 </button>
               </form>

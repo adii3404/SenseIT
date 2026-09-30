@@ -128,11 +128,8 @@ export function Sidebar() {
           />
           <div>
             <p className="text-base font-black tracking-tight text-gray-900 leading-tight">SenseIT</p>
-            <p className="mt-0.5 text-[9px] font-bold tracking-wider text-blue-700 uppercase leading-snug">
+            <p className="mt-0.5 text-[10px] font-bold tracking-wider text-blue-700 uppercase leading-snug">
               DISASTER SURVEILLANCE MANAGEMENT
-            </p>
-            <p className="mt-0.5 text-[8.5px] font-medium text-gray-500 leading-tight">
-              Integrated Emergency Operations Network · Cyclone Surveillance Wing
             </p>
           </div>
         </div>

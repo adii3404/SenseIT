@@ -58,7 +58,7 @@ const CRISIS_ITEMS = [
     risk: 65,
     icon: AlertTriangle,
     desc: "145 km/h winds risk insulator flashover on secondary corridor.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=200&fit=crop",
+    image: "/images/relay.jpg",
   },
 ];
 

@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   description:
     "Integrated Emergency Operations Network · Cyclone Surveillance Wing",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/logo-mark.png",
+    shortcut: "/logo-mark.png",
+    apple: "/logo-mark.png",
   },
 };
 
@@ -24,8 +24,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
       <head>
-        <link rel="icon" href="/logo.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="icon" href="/logo-mark.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo-mark.png" />
         {/* Suppress Google Maps Billing/Auth console error overlay in development */}
         <script
           dangerouslySetInnerHTML={{
