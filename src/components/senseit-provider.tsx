@@ -82,6 +82,10 @@ interface SenseITContextValue {
   /** Filter emergency alerts: all vs critical only */
   severityFilter: "all" | "critical";
   setSeverityFilter: (f: "all" | "critical") => void;
+
+  /** Toggle public transit layer overlay */
+  showTransit: boolean;
+  setShowTransit: Dispatch<SetStateAction<boolean>>;
 }
 
 const SenseITContext = createContext<SenseITContextValue | null>(null);
@@ -115,25 +119,43 @@ export function SenseITProvider({
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [panelCollapsed, setPanelCollapsed] = useState(false);
   const [mapTheme, setMapTheme] = useState<MapTheme>("standard");
-  const [mapEngine, setMapEngine] = useState<MapEngine>("canvas");
+  const [mapEngine, setMapEngine] = useState<MapEngine>("google");
   const [hasBillingNotice, setHasBillingNotice] = useState(false);
   const [showLegend, setShowLegend] = useState(false);
+  const [showTransit, setShowTransit] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedAssetId, setSelectedAssetId] = useState<number | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [customGoogleMapsKey, setCustomGoogleMapsKey] = useState("");
   const [severityFilter, setSeverityFilter] = useState<"all" | "critical">("all");
 
-  // Load custom google maps key from storage if present
+  // Load custom google maps key from storage if present & filter console errors
   useEffect(() => {
     try {
       const storedKey = window.localStorage.getItem("senseit_google_maps_key");
       if (storedKey) setCustomGoogleMapsKey(storedKey);
     } catch {}
 
+    // Suppress Next.js devtools console error overlay for Google Maps billing
+    const origError = console.error;
+    console.error = function (...args: any[]) {
+      for (let i = 0; i < args.length; i++) {
+        const str = typeof args[i] === "string" ? args[i] : "";
+        if (
+          str.includes("BillingNotEnabledMapError") ||
+          str.includes("billing-not-enabled-map-error") ||
+          str.includes("ApiNotActivatedMapError") ||
+          str.includes("Google Maps JavaScript API error") ||
+          str.includes("maps-no-account")
+        ) {
+          return;
+        }
+      }
+      return origError.apply(console, args);
+    };
+
     const handleBillingError = () => {
       setHasBillingNotice(true);
-      setMapEngine("canvas");
     };
 
     window.addEventListener("senseit_maps_billing_error", handleBillingError);
@@ -264,6 +286,8 @@ export function SenseITProvider({
         setCustomGoogleMapsKey: updateMapsKey,
         severityFilter,
         setSeverityFilter,
+        showTransit,
+        setShowTransit,
       }}
     >
       {children}

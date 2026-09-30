@@ -64,3 +64,21 @@
 .scroll-slim::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Suppress Google Maps billing dialog & dev watermark overlays      */
+/* ------------------------------------------------------------------ */
+.gm-err-container,
+.gm-err-content,
+.gm-err-autocomplete,
+.gm-err-message,
+div[style*="z-index: 1000001"],
+div[aria-label="Google Maps error"],
+div[role="dialog"]:has(a[href*="maps-no-account"]),
+div:has(> a[href*="maps-no-account"]),
+.gm-style-cc,
+.gm-style div[style*="color: rgb(255, 255, 255); background-color: rgba(0, 0, 0, 0.5)"] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

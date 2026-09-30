@@ -37,6 +37,8 @@ export function MapToolbar() {
     isRefreshing,
     severityFilter,
     setSeverityFilter,
+    showTransit,
+    setShowTransit,
   } = useSenseIT();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -111,7 +113,7 @@ export function MapToolbar() {
           <span className="hidden sm:inline">Satellite</span>
         </button>
 
-        {/* Transit/Dark Toggle */}
+        {/* Radar Toggle */}
         <button
           onClick={() => setMapTheme(mapTheme === "dark" ? "standard" : "dark")}
           className={cn(
@@ -124,6 +126,21 @@ export function MapToolbar() {
         >
           <Moon className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">Radar</span>
+        </button>
+
+        {/* Transit Toggle */}
+        <button
+          onClick={() => setShowTransit(!showTransit)}
+          className={cn(
+            "flex h-9 items-center gap-1.5 rounded-full border px-3 py-2 text-[11px] font-semibold shadow-lg backdrop-blur-md transition-all duration-200",
+            showTransit
+              ? "border-emerald-500 bg-emerald-600 text-white hover:bg-emerald-700"
+              : "border-gray-200/80 bg-white/95 text-gray-700 hover:bg-gray-100 hover:text-emerald-700",
+          )}
+          title="Toggle transit overlay"
+        >
+          <Train className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">Transit</span>
         </button>
 
         {/* Plus (+) Menu Button */}

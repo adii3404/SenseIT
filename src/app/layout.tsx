@@ -25,21 +25,49 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             __html: `
               (function() {
                 if (typeof window !== 'undefined') {
-                  var origError = console.error;
-                  console.error = function() {
-                    for (var i = 0; i < arguments.length; i++) {
-                      var arg = arguments[i];
-                      if (typeof arg === 'string' && (
-                        arg.indexOf('BillingNotEnabledMapError') !== -1 ||
-                        arg.indexOf('billing-not-enabled-map-error') !== -1 ||
-                        arg.indexOf('ApiNotActivatedMapError') !== -1
-                      )) {
-                        console.warn('[senseit] Intercepted Google Maps error:', arg);
-                        window.dispatchEvent(new CustomEvent('senseit_maps_billing_error'));
-                        return;
+                  function isGoogleMapsBillingMsg(arg) {
+                    return typeof arg === 'string' && (
+                      arg.indexOf('BillingNotEnabledMapError') !== -1 ||
+                      arg.indexOf('billing-not-enabled-map-error') !== -1 ||
+                      arg.indexOf('ApiNotActivatedMapError') !== -1 ||
+                      arg.indexOf('Google Maps JavaScript API error') !== -1 ||
+                      arg.indexOf('maps-no-account') !== -1
+                    );
+                  }
+
+                  function wrapConsoleError(orig) {
+                    return function() {
+                      for (var i = 0; i < arguments.length; i++) {
+                        if (isGoogleMapsBillingMsg(arguments[i])) {
+                          window.dispatchEvent(new CustomEvent('senseit_maps_billing_error'));
+                          return;
+                        }
                       }
+                      if (typeof orig === 'function') {
+                        return orig.apply(console, arguments);
+                      }
+                    };
+                  }
+
+                  var currentError = wrapConsoleError(console.error);
+                  try {
+                    Object.defineProperty(console, 'error', {
+                      configurable: true,
+                      enumerable: true,
+                      get: function() { return currentError; },
+                      set: function(newFn) { currentError = wrapConsoleError(newFn); }
+                    });
+                  } catch (e) {
+                    console.error = currentError;
+                  }
+
+                  // Suppress window.alert for Google Maps billing message
+                  var origAlert = window.alert;
+                  window.alert = function(msg) {
+                    if (isGoogleMapsBillingMsg(msg)) {
+                      return;
                     }
-                    origError.apply(console, arguments);
+                    if (origAlert) return origAlert.apply(window, arguments);
                   };
                 }
               })();

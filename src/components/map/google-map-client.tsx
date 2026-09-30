@@ -65,20 +65,47 @@ export function GoogleMapClient({
     selectedAssetId,
     setSelectedAssetId,
     severityFilter,
+    showTransit,
   } = useSenseIT();
 
   const [mapInstance, setMapInstance] = useState<google.maps.Map | null>(null);
   const [authError, setAuthError] = useState(false);
-  const [showNotice, setShowNotice] = useState(true);
+  const [showNotice, setShowNotice] = useState(false);
+  const [transitLayer, setTransitLayer] = useState<google.maps.TransitLayer | null>(null);
 
-  // Catch Google Maps authentication or billing failure
+  // Catch Google Maps authentication or billing failure & auto-dismiss popups
   useEffect(() => {
     const originalFailure = (window as unknown as { gm_authFailure?: () => void }).gm_authFailure;
     (window as unknown as { gm_authFailure?: () => void }).gm_authFailure = () => {
-      console.warn("[senseit] Google Maps API requires billing to be enabled. Using fallback map.");
       setAuthError(true);
       if (typeof originalFailure === "function") originalFailure();
     };
+
+    // Auto-dismiss Google Maps "Do you own this website" / Billing dialog if it attempts to render
+    const dismissDialog = () => {
+      const dialogs = document.querySelectorAll<HTMLElement>(
+        '.gm-err-container, div[role="dialog"], div[style*="z-index: 1000001"]'
+      );
+      dialogs.forEach((dialog) => {
+        if (
+          dialog.textContent?.includes("Google Maps") ||
+          dialog.querySelector('a[href*="maps-no-account"]') ||
+          dialog.classList.contains("gm-err-container")
+        ) {
+          dialog.style.display = "none";
+          dialog.style.visibility = "hidden";
+          dialog.style.pointerEvents = "none";
+          const btn = dialog.querySelector<HTMLButtonElement>("button");
+          if (btn) btn.click();
+        }
+      });
+    };
+
+    const observer = new MutationObserver(dismissDialog);
+    observer.observe(document.body, { childList: true, subtree: true });
+    dismissDialog();
+
+    return () => observer.disconnect();
   }, []);
 
   const { isLoaded, loadError } = useJsApiLoader({
@@ -107,6 +134,19 @@ export function GoogleMapClient({
       }
     }
   }, [mapInstance, selected]);
+
+  // Handle transit layer toggle
+  useEffect(() => {
+    if (!mapInstance || typeof google === "undefined" || !google.maps) return;
+    if (showTransit) {
+      const layer = new google.maps.TransitLayer();
+      layer.setMap(mapInstance);
+      setTransitLayer(layer);
+    } else if (transitLayer) {
+      transitLayer.setMap(null);
+      setTransitLayer(null);
+    }
+  }, [mapInstance, showTransit]);
 
   // Handle map instance load
   const onMapLoad = useCallback((map: google.maps.Map) => {
