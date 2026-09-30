@@ -8,7 +8,7 @@ SenseIT is a real-time cyclone vulnerability forecasting and emergency response 
 - **Incident Overview & Live Telemetry**: Live tracking of cyclone coordinates, sustained wind speeds, pressure, and landfall ETA.
 - **AI-Powered Disaster Analysis**: Automated triage assessments and operational dispatches with an integrated intelligent assistant.
 - **Vulnerability Situation Reports**: PDF export with customizable emergency parameters, status indicators, and contact directives.
-- **Emergency Dispatch & Direct Contacts**: Quick-dial operational contacts for NDRF, SDRF, IMD, District Police, and emergency services.
+- **Emergency Dispatch & Direct Contacts**: Quick-dial operational contacts for Ambulance, Fire Brigade, Police, Disaster Authority, and Coastal Patrol.
 
 ## Getting Started
 
