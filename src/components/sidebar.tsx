@@ -34,7 +34,16 @@ export function Sidebar() {
   /* -------- Collapsed: thin icon rail with tooltips -------- */
   if (sidebarCollapsed) {
     return (
-      <aside className="hidden md:flex w-14 shrink-0 flex-col items-center border-r border-gray-200 bg-white py-4 transition-all duration-300">
+      <aside className="hidden md:flex w-14 shrink-0 flex-col items-center border-r border-gray-200 bg-white py-3 transition-all duration-300">
+        {/* Logo at top of collapsed rail */}
+        <div className="mb-2 p-1">
+          <img
+            src="/logo.png"
+            alt="SenseIT"
+            className="h-8 w-auto object-contain rounded"
+          />
+        </div>
+
         {/* Expand Button */}
         <button
           onClick={() => setSidebarCollapsed(false)}
@@ -108,19 +117,29 @@ export function Sidebar() {
 
   /* -------- Expanded: full sidebar -------- */
   return (
-    <aside className="relative hidden w-60 shrink-0 flex-col border-r border-gray-200 bg-white md:flex lg:w-64 transition-all duration-300">
-      {/* Brand Header */}
-      <div className="flex items-center justify-between px-5 pb-5 pt-5">
-        <div>
-          <p className="text-xl font-black tracking-tight text-gray-900">SenseIT</p>
-          <p className="text-[11px] font-medium tracking-wide text-gray-400">
-            Vulnerability Forecaster
-          </p>
+    <aside className="relative hidden w-64 shrink-0 flex-col border-r border-gray-200 bg-white md:flex lg:w-72 transition-all duration-300">
+      {/* Brand Header with Logo upside the sidebar */}
+      <div className="flex items-start justify-between p-4 border-b border-gray-100">
+        <div className="flex items-start gap-3">
+          <img
+            src="/logo.png"
+            alt="SenseIT Logo"
+            className="h-10 w-auto object-contain rounded-md shrink-0 mt-0.5"
+          />
+          <div>
+            <p className="text-base font-black tracking-tight text-gray-900 leading-tight">SenseIT</p>
+            <p className="mt-0.5 text-[9px] font-bold tracking-wider text-blue-700 uppercase leading-snug">
+              DISASTER SURVEILLANCE MANAGEMENT
+            </p>
+            <p className="mt-0.5 text-[8.5px] font-medium text-gray-500 leading-tight">
+              Integrated Emergency Operations Network · Cyclone Surveillance Wing
+            </p>
+          </div>
         </div>
 
         <button
           onClick={() => setSidebarCollapsed(true)}
-          className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition"
+          className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition shrink-0 mt-0.5"
           title="Collapse navigation"
           aria-label="Collapse sidebar"
         >
@@ -199,10 +218,17 @@ export function MobileHeader() {
   ];
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-4 md:hidden">
-      <div>
-        <span className="text-base font-black tracking-tight text-gray-900">SenseIT</span>
-        <span className="ml-1 text-[11px] text-gray-400">Forecaster</span>
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-3 md:hidden">
+      <div className="flex items-center gap-2">
+        <img
+          src="/logo.png"
+          alt="SenseIT Logo"
+          className="h-7 w-auto object-contain rounded"
+        />
+        <div className="flex items-baseline gap-1">
+          <span className="text-sm font-black tracking-tight text-gray-900">SenseIT</span>
+          <span className="text-[9px] font-bold text-blue-700 uppercase">SURVEILLANCE</span>
+        </div>
       </div>
       <nav className="flex items-center gap-1">
         {navItems.map(({ label, icon: Icon, modal, isMap }) => {

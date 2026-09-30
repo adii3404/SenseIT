@@ -10,15 +10,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SenseIT — Cyclone Vulnerability Forecaster",
+  title: "SenseIT — DISASTER SURVEILLANCE MANAGEMENT",
   description:
-    "Understand which hospitals, power grids and communities are at risk before a cyclone makes landfall — and act in time.",
+    "Integrated Emergency Operations Network · Cyclone Surveillance Wing",
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
       <head>
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         {/* Suppress Google Maps Billing/Auth console error overlay in development */}
         <script
           dangerouslySetInnerHTML={{

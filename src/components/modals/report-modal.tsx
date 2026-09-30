@@ -149,14 +149,14 @@ export function ReportModal() {
       doc.setFillColor(15, 23, 42);
       doc.rect(0, 0, 210, 36, "F");
       doc.setTextColor(255, 255, 255);
-      doc.setFontSize(20);
+      doc.setFontSize(18);
       doc.setFont("helvetica", "bold");
-      doc.text("SENSEIT — CYCLONE VULNERABILITY FORECASTER", 14, 16);
+      doc.text("SENSEIT — DISASTER SURVEILLANCE MANAGEMENT", 14, 16);
       doc.setFontSize(9.5);
       doc.setFont("helvetica", "normal");
       doc.setTextColor(203, 213, 225);
-      doc.text("OFFICIAL INCIDENT SITUATION REPORT · SEVERE CYCLONIC STORM DANA-3", 14, 23);
-      doc.text(`Generated: ${dateStr} at ${timeStr} · Bay of Bengal`, 14, 29);
+      doc.text("INTEGRATED EMERGENCY OPERATIONS NETWORK · CYCLONE SURVEILLANCE WING", 14, 23);
+      doc.text(`Incident Report · Cyclone Dana-3 · Generated: ${dateStr} at ${timeStr}`, 14, 29);
 
       // Red accent line
       doc.setFillColor(239, 68, 68);
@@ -230,8 +230,8 @@ export function ReportModal() {
       doc.setFontSize(8);
       doc.setFont("helvetica", "italic");
       doc.setTextColor(148, 163, 184);
-      doc.text("SenseIT Automated Disaster Intelligence Framework · Confidential Operational Dispatch", 14, y + 11);
-      doc.text(`Verification: AEG-${Math.floor(100000 + Math.random() * 900000)} · Bay of Bengal Emergency`, 14, y + 16);
+      doc.text("SenseIT · DISASTER SURVEILLANCE MANAGEMENT · Integrated Emergency Operations Network", 14, y + 11);
+      doc.text(`Cyclone Surveillance Wing · Bay of Bengal Incident Operations · Verified`, 14, y + 16);
 
       doc.save("SenseIT_Vulnerability_Report_Dana3.pdf");
       setSuccess(true);
