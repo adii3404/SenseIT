@@ -1,13 +1,8 @@
 import { db } from "@/db";
 import { assets, dispatches } from "@/db/schema";
 import { desc } from "drizzle-orm";
-import { Sidebar, MobileHeader } from "@/components/sidebar";
-import { CoastalMap } from "@/components/map/coastal-map";
-import { StatusPanel } from "@/components/status-panel";
+import { DashboardContent } from "@/components/dashboard-content";
 import { SenseITProvider } from "@/components/senseit-provider";
-import { OverviewModal } from "@/components/modals/overview-modal";
-import { ReportModal } from "@/components/modals/report-modal";
-import { SettingsModal } from "@/components/modals/settings-modal";
 import type { MapAsset } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -97,27 +92,12 @@ export default async function LiveMapPage() {
 
   return (
     <SenseITProvider initialAssets={mapAssets} initialLandfallIso={landfallIso}>
-      <div className="flex min-h-screen flex-col bg-gray-50 md:h-screen md:flex-row overflow-hidden">
-        <Sidebar />
-        <MobileHeader />
-
-        <main className="relative flex min-h-0 flex-1 flex-col md:block">
-          {/* Map — the comprehensive focus of the screen */}
-          <div className="relative h-[58vh] min-h-[380px] w-full md:absolute md:inset-0 md:h-full">
-            <CoastalMap apiKey={apiKey} assets={mapAssets} />
-          </div>
-
-          {/* Floating situation and action panel */}
-          <div className="relative z-20 -mt-8 px-4 pb-6 md:absolute md:bottom-6 md:right-6 md:top-6 md:mt-0 md:w-[390px] md:px-0 md:pb-0 pointer-events-auto">
-            <StatusPanel landfallIso={landfallIso} lastNotified={lastNotified} />
-          </div>
-        </main>
-
-        {/* Global Modals for Overview (Gemini chat + crisis cards), Reports (PDF generator), Settings */}
-        <OverviewModal />
-        <ReportModal />
-        <SettingsModal />
-      </div>
+      <DashboardContent
+        apiKey={apiKey}
+        mapAssets={mapAssets}
+        landfallIso={landfallIso}
+        lastNotified={lastNotified}
+      />
     </SenseITProvider>
   );
 }

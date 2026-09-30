@@ -4,6 +4,7 @@ import {
   AlertCircle,
   FileText,
   LayoutDashboard,
+  LogOut,
   Map,
   MoreHorizontal,
   PanelLeftClose,
@@ -19,6 +20,8 @@ export function Sidebar() {
     setActiveModal,
     sidebarCollapsed,
     setSidebarCollapsed,
+    officerName,
+    logout,
   } = useSenseIT();
 
   const navItems: { label: string; icon: any; modal: ModalType; isMap?: boolean }[] = [
@@ -72,10 +75,31 @@ export function Sidebar() {
           })}
         </nav>
 
-        {/* User avatar in collapsed mode */}
-        <div className="mt-auto pt-3 border-t border-gray-200">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 text-xs font-bold text-white shadow-xs">
-            PS
+        {/* User avatar and Sign Out in collapsed mode */}
+        <div className="mt-auto pt-3 border-t border-gray-200 flex flex-col items-center gap-2">
+          <div className="relative group">
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-slate-900 text-xs font-bold text-white shadow-xs">
+              AB
+            </div>
+            {/* Tooltip */}
+            <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 whitespace-nowrap rounded-lg bg-gray-900 px-2.5 py-1 text-[11px] font-semibold text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 z-50">
+              {officerName || "Aditya Bhandari"} (Admin)
+            </span>
+          </div>
+
+          <div className="relative group">
+            <button
+              onClick={logout}
+              className="flex h-9 w-9 items-center justify-center rounded-xl text-red-500 hover:bg-red-50 hover:text-red-700 transition"
+              title="Sign Out"
+              aria-label="Sign Out"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+            {/* Tooltip */}
+            <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2.5 whitespace-nowrap rounded-lg bg-gray-900 px-2.5 py-1 text-[11px] font-semibold text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100 z-50">
+              Sign Out
+            </span>
           </div>
         </div>
       </aside>
@@ -134,19 +158,29 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* User profile */}
+      {/* Admin User Profile with Sign Out */}
       <div className="border-t border-gray-200 p-3">
-        <div className="flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-gray-100">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 text-xs font-bold text-white shadow-xs">
-            PS
+        <div className="flex items-center gap-2.5 rounded-xl p-2 bg-slate-50 border border-slate-200/80">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-slate-900 to-blue-900 text-xs font-bold text-white shadow-xs">
+            AB
           </div>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-gray-900">
-              Priya Sharma
+            <p className="truncate text-xs font-bold text-gray-900">
+              {officerName || "Aditya Bhandari"}
             </p>
-            <p className="truncate text-xs text-gray-500">Field Coordinator</p>
+            <p className="truncate text-[10px] font-medium text-emerald-700 flex items-center gap-1">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              Authorized Admin
+            </p>
           </div>
-          <MoreHorizontal className="h-4 w-4 text-gray-400" />
+          <button
+            onClick={logout}
+            className="flex items-center justify-center h-8 w-8 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition"
+            title="Sign Out"
+            aria-label="Sign Out"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </aside>
@@ -155,7 +189,7 @@ export function Sidebar() {
 
 /** Compact top bar shown only on small screens. */
 export function MobileHeader() {
-  const { activeModal, setActiveModal } = useSenseIT();
+  const { activeModal, setActiveModal, officerName, logout } = useSenseIT();
 
   const navItems: { label: string; icon: any; modal: ModalType; isMap?: boolean }[] = [
     { label: "Overview", icon: LayoutDashboard, modal: "overview" },
@@ -190,6 +224,15 @@ export function MobileHeader() {
             </button>
           );
         })}
+
+        <button
+          onClick={logout}
+          aria-label="Sign Out"
+          title="Sign Out"
+          className="grid h-9 w-9 place-items-center rounded-lg text-red-500 hover:bg-red-50 hover:text-red-700 transition ml-1 border border-red-200"
+        >
+          <LogOut className="h-4 w-4" />
+        </button>
       </nav>
     </header>
   );

@@ -86,6 +86,13 @@ interface SenseITContextValue {
   /** Toggle public transit layer overlay */
   showTransit: boolean;
   setShowTransit: Dispatch<SetStateAction<boolean>>;
+
+  /** Authorized officer login state */
+  isAuthenticated: boolean;
+  isAuthChecking: boolean;
+  officerName: string;
+  login: (name: string) => void;
+  logout: () => void;
 }
 
 const SenseITContext = createContext<SenseITContextValue | null>(null);
@@ -128,6 +135,46 @@ export function SenseITProvider({
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [customGoogleMapsKey, setCustomGoogleMapsKey] = useState("");
   const [severityFilter, setSeverityFilter] = useState<"all" | "critical">("all");
+
+  // Authorized officer authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthChecking, setIsAuthChecking] = useState<boolean>(true);
+  const [officerName, setOfficerName] = useState<string>("Aditya Bhandari");
+
+  // Read saved session from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedAuth = window.localStorage.getItem("senseit_officer_auth");
+      const savedName = window.localStorage.getItem("senseit_officer_name");
+      if (savedAuth === "true") {
+        setIsAuthenticated(true);
+        if (savedName) setOfficerName(savedName);
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch {
+      setIsAuthenticated(false);
+    } finally {
+      setIsAuthChecking(false);
+    }
+  }, []);
+
+  const login = useCallback((name: string) => {
+    setIsAuthenticated(true);
+    setOfficerName(name);
+    try {
+      window.localStorage.setItem("senseit_officer_auth", "true");
+      window.localStorage.setItem("senseit_officer_name", name);
+    } catch {}
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsAuthenticated(false);
+    try {
+      window.localStorage.removeItem("senseit_officer_auth");
+      window.localStorage.removeItem("senseit_officer_name");
+    } catch {}
+  }, []);
 
   // Load custom google maps key from storage if present & filter console errors
   useEffect(() => {
@@ -288,6 +335,12 @@ export function SenseITProvider({
         setSeverityFilter,
         showTransit,
         setShowTransit,
+
+        isAuthenticated,
+        isAuthChecking,
+        officerName,
+        login,
+        logout,
       }}
     >
       {children}
